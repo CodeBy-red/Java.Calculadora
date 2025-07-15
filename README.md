@@ -58,7 +58,7 @@ Para rodar este projeto na sua própria máquina, siga os passos abaixo:
 
 2.  **Navegue até a pasta do projeto:**
     ```bash
-    cd nome-da-pasta-do-projeto
+    cd index.html
     ```
 
 3.  **Abra o arquivo principal:**
