@@ -53,7 +53,7 @@ Para rodar este projeto na sua própria máquina, siga os passos abaixo:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO_AQUI]
+    git clone [https://github.com/CodeBy-red/Java.Calculadora]
     ```
 
 2.  **Navegue até a pasta do projeto:**
