@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Moderna</title>
+    <style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Um fundo claro para destacar a calculadora */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.calculator {
+    width: 320px;
+    background-color: #1c1c1c; /* Fundo preto da calculadora */
+    border-radius: 40px;
+    padding: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.display {
+    width: 100%;
+    height: 90px;
+    background-color: #1c1c1c;
+    color: white;
+    text-align: right;
+    padding: 0 20px;
+    font-size: 3.8rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.button {
+    height: 65px;
+    width: 65px;
+    border-radius: 50%; /* A mágica para criar botões redondos */
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: filter 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent; /* Remove highlight de clique no mobile */
+}
+
+.button:hover {
+    filter: brightness(1.2);
+}
+
+.button:active {
+    filter: brightness(0.8);
+}
+
+/* Cores e estilos específicos dos botões */
+.button.number {
+    background-color: #505050;
+    color: white;
+}
+
+.button.special {
+    background-color: #d4d4d2;
+    color: #1c1c1c;
+    font-size: 1.5rem;
+}
+
+.button.operator {
+    background-color: #ff9500; /* Laranja para operadores */
+    color: white;
+    font-size: 2.2rem;
+}
+
+/* O botão de zero ocupa o espaço de duas colunas */
+.button.zero {
+    grid-column: span 2;
+    width: auto; /* Remove a largura fixa para que ele possa expandir */
+    justify-content: flex-start; /* Alinha o texto '0' à esquerda */
+    padding-left: 25px;
+    border-radius: 35px; /* Mantém a borda arredondada */
+}
+   </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="button special" id="clear">AC</button>
+            <button class="button special" data-action="negate">+/-</button>
+            <button class="button special" data-action="percent">%</button>
+            <button class="button operator" data-value="/">&div;</button>
+            
+            <button class="button number" data-value="7">7</button>
+            <button class="button number" data-value="8">8</button>
+            <button class="button number" data-value="9">9</button>
+            <button class="button operator" data-value="*">&times;</button>
+            
+            <button class="button number" data-value="4">4</button>
+            <button class="button number" data-value="5">5</button>
+            <button class="button number" data-value="6">6</button>
+            <button class="button operator" data-value="-">-</button>
+
+            <button class="button number" data-value="1">1</button>
+            <button class="button number" data-value="2">2</button>
+            <button class="button number" data-value="3">3</button>
+            <button class="button operator" data-value="+">+</button>
+
+            <button class="button number zero" data-value="0">0</button>
+            <button class="button number" data-value=".">.</button>
+            <button class="button operator equals" id="equals">=</button>
+        </div>
+    </div>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+    const display = document.getElementById('display');
+    const buttonsContainer = document.querySelector('.buttons');
+
+    // Variáveis que guardam o estado da calculadora
+    let currentInput = '0';
+    let operator = null;
+    let previousInput = '';
+    // "Bandeira" que controla se o próximo dígito deve limpar o display
+    let shouldResetDisplay = false;
+
+    // Função para atualizar o valor no display
+    const updateDisplay = () => {
+        display.textContent = currentInput;
+    };
+    updateDisplay(); // Chama uma vez para iniciar com '0'
+
+    // Função para lidar com o clique nos botões
+    const handleButtonClick = (event) => {
+        const target = event.target;
+        if (!target.matches('button')) return; // Sai se o clique não for em um botão
+
+        const { value } = target.dataset;
+        const { action } = target.dataset;
+
+        if (target.classList.contains('number')) {
+            handleNumber(value);
+        } else if (target.classList.contains('operator')) {
+            handleOperator(value);
+        } else if (action === 'negate' || action === 'percent') {
+            handleSpecialAction(action);
+        } else if (target.id === 'equals') {
+            handleEquals();
+        } else if (target.id === 'clear') {
+            handleClear();
+        }
+
+        updateDisplay();
+    };
+    
+    // Funções de Lógica
+    const handleNumber = (number) => {
+        if (shouldResetDisplay) {
+            currentInput = number;
+            shouldResetDisplay = false;
+        } else {
+            currentInput = currentInput === '0' ? number : currentInput + number;
+        }
+    };
+    
+    const handleOperator = (nextOperator) => {
+        if (operator && !shouldResetDisplay) {
+            calculate();
+        }
+        previousInput = currentInput;
+        operator = nextOperator;
+        shouldResetDisplay = true;
+    };
+
+    const calculate = () => {
+        if (!operator || previousInput === null) return;
+        
+        const prev = parseFloat(previousInput);
+        const current = parseFloat(currentInput);
+        if (isNaN(prev) || isNaN(current)) return;
+
+        let result = 0;
+        switch (operator) {
+            case '+': result = prev + current; break;
+            case '-': result = prev - current; break;
+            case '*': result = prev * current; break;
+            case '/':
+                if (current === 0) {
+                    alert("Erro: não é possível dividir por zero.");
+                    handleClear(); return;
+                }
+                result = prev / current;
+                break;
+            default: return;
+        }
+        currentInput = result.toString();
+        operator = null;
+        previousInput = '';
+        shouldResetDisplay = true;
+    };
+
+    const handleEquals = () => {
+        calculate();
+    };
+    
+    const handleClear = () => {
+        currentInput = '0';
+        operator = null;
+        previousInput = '';
+        shouldResetDisplay = false;
+    };
+    
+    // Funções para ações especiais (não implementadas, mas prontas para expansão)
+    const handleSpecialAction = (action) => {
+        if (action === 'negate') {
+            currentInput = (parseFloat(currentInput) * -1).toString();
+        } else if (action === 'percent') {
+            currentInput = (parseFloat(currentInput) / 100).toString();
+        }
+    };
+    
+    // Adiciona o ouvinte de eventos principal
+    buttonsContainer.addEventListener('click', handleButtonClick);
+});
+
+</script>
+</body>
+</html>
